@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // Read source file
-let html = fs.readFileSync('管理后台.html', 'utf8');
+let html = fs.readFileSync('index.html', 'utf8');
 
 // Read resources
 const tailwind = fs.readFileSync('tailwind.js', 'utf8');

@@ -24,7 +24,7 @@ http.createServer((req, res) => {
     
     // Default to the specific HTML file for root requests
     if (filePath === './') {
-        filePath = './管理后台.html';
+        filePath = './index.html';
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
