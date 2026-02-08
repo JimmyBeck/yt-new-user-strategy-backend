@@ -98,6 +98,55 @@
                         <div v-if="activeFilterDropdown === q.label" @click="activeFilterDropdown = null" class="fixed inset-0 z-20 cursor-default"></div>
                     </div>
                 </div>
+
+                <!-- Separator -->
+                <div class="col-span-1 md:col-span-3 lg:col-span-5 border-t border-slate-100 my-2 pt-2 flex items-center">
+                    <span class="text-xs font-bold text-slate-400 bg-white pr-2">额外条件</span>
+                </div>
+
+                <!-- Extra Filters -->
+                <div v-for="q in extraConditionConfig" :key="q.label" class="relative">
+                    <label class="block text-xs font-bold text-indigo-400 mb-1.5">{{ q.label }}</label>
+                    
+                    <div class="relative">
+                        <!-- Trigger -->
+                        <div class="w-full border border-indigo-100 rounded-lg p-2.5 bg-indigo-50/30 text-xs flex justify-between items-center cursor-pointer hover:border-indigo-300 transition"
+                                @click="toggleFilterDropdown(q.label)">
+                            <span class="truncate pr-4" :class="isAny(filters[q.label]) ? 'text-slate-400 italic' : 'text-indigo-600 font-bold'">
+                                {{ formatSelected(filters[q.label]) }}
+                            </span>
+                            <i class="fas fa-chevron-down text-indigo-300 text-[10px]"></i>
+                        </div>
+
+                        <!-- Dropdown -->
+                        <div v-show="activeFilterDropdown === q.label" 
+                                class="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden multiselect-options">
+                            <div class="p-1">
+                                <label class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
+                                    <input type="checkbox" 
+                                            :checked="isAny(filters[q.label])"
+                                            @change="handleFilterChange(q.label, 'any')"
+                                            class="w-3 h-3 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                    <span class="ml-2 text-xs text-slate-600 italic">不限 / 忽略</span>
+                                </label>
+                                
+                                <div class="h-px bg-slate-100 my-1"></div>
+
+                                <label v-for="opt in q.options" :key="opt" class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
+                                    <input type="checkbox" 
+                                            :value="opt"
+                                            :checked="isChecked(filters[q.label], opt)"
+                                            @change="handleFilterChange(q.label, opt)"
+                                            class="w-3 h-3 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                    <span class="ml-2 text-xs text-slate-700">{{ opt }}</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Backdrop -->
+                        <div v-if="activeFilterDropdown === q.label" @click="activeFilterDropdown = null" class="fixed inset-0 z-20 cursor-default"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -239,6 +288,56 @@
                                 
                                 <!-- Backdrop to close dropdown -->
                                 <div v-if="activeDropdown === q.label" @click="activeDropdown = null" class="fixed inset-0 z-10 cursor-default"></div>
+                            </div>
+                        </div>
+
+                        <!-- Extra Conditions -->
+                        <div class="pt-2 border-t border-slate-100 mt-2">
+                            <h5 class="font-bold text-indigo-500 text-xs mb-3">额外条件</h5>
+                            <div v-for="q in extraConditionConfig" :key="q.label" class="space-y-1 relative group mb-4">
+                                <label class="block text-xs font-bold text-slate-500">{{ q.label }}</label>
+                                
+                                <!-- Custom Multiselect -->
+                                <div class="relative">
+                                    <!-- Trigger -->
+                                    <div class="w-full border-2 border-indigo-50 rounded-xl p-3 bg-indigo-50/20 text-sm flex justify-between items-center cursor-pointer hover:border-indigo-300 transition"
+                                         @click="toggleDropdown(q.label)">
+                                        <span class="truncate pr-4" :class="isAny(tempRule.conditions[q.label]) ? 'text-slate-400 italic' : 'text-slate-700 font-medium'">
+                                            {{ formatSelected(tempRule.conditions[q.label]) }}
+                                        </span>
+                                        <i class="fas fa-chevron-down text-slate-400 text-xs"></i>
+                                    </div>
+
+                                    <!-- Dropdown -->
+                                    <div v-show="activeDropdown === q.label" 
+                                         class="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden multiselect-options">
+                                        <div class="p-1">
+                                            <!-- Any Option -->
+                                            <label class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
+                                                <input type="checkbox" 
+                                                       :checked="isAny(tempRule.conditions[q.label])"
+                                                       @change="handleConditionChange(q.label, 'any')"
+                                                       class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                                <span class="ml-2 text-sm text-slate-600 italic">不限 / 忽略</span>
+                                            </label>
+                                            
+                                            <div class="h-px bg-slate-100 my-1"></div>
+
+                                            <!-- Regular Options -->
+                                            <label v-for="opt in q.options" :key="opt" class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
+                                                <input type="checkbox" 
+                                                       :value="opt"
+                                                       :checked="isChecked(tempRule.conditions[q.label], opt)"
+                                                       @change="handleConditionChange(q.label, opt)"
+                                                       class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                                                <span class="ml-2 text-sm text-slate-700">{{ opt }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Backdrop to close dropdown -->
+                                    <div v-if="activeDropdown === q.label" @click="activeDropdown = null" class="fixed inset-0 z-10 cursor-default"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -429,6 +528,9 @@
                     { label: '考研年份', options: ['26考研', '27考研', '28考研', '29考研'] },
                     { label: '考研专业和院校', options: ['只有专业', '只有院校', '院校专业都有', '院校专业都没有'] },
                     { label: '关注专业', options: ['哲学', '经济学', '法学', '教育学', '文学', '历史学', '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学', '数学', '不考数学'] }
+                ],
+                extraConditionConfig: [
+                    { label: '是否已添加销售好友', options: ['是', '否'] }
                 ],
                 categoryRoots: {
                     '通用首页': ['寒假抢跑', '工科智选', '家长专区'],
@@ -625,7 +727,7 @@
             }
         },
         created() {
-            this.questionConfig.forEach(q => {
+            [...this.questionConfig, ...this.extraConditionConfig].forEach(q => {
                 this.filters[q.label] = ['any'];
                 this.appliedFilters[q.label] = ['any'];
             });
@@ -637,7 +739,7 @@
                 
                 // Apply filters (using appliedFilters instead of filters)
                 rules = rules.filter(rule => {
-                    return this.questionConfig.every(q => {
+                    return [...this.questionConfig, ...this.extraConditionConfig].every(q => {
                         const filterVal = this.appliedFilters[q.label];
                         if (this.isAny(filterVal)) return true; // No filter on this column
                         
@@ -676,7 +778,7 @@
                         priority: 10 
                     };
                     // Initialize conditions with 'any' for all fields
-                    this.questionConfig.forEach(q => {
+                    [...this.questionConfig, ...this.extraConditionConfig].forEach(q => {
                         this.tempRule.conditions[q.label] = ['any'];
                     });
                 }
@@ -750,7 +852,7 @@
                 this.appliedFilters = JSON.parse(JSON.stringify(this.filters));
             },
             resetFilters() {
-                this.questionConfig.forEach(q => {
+                [...this.questionConfig, ...this.extraConditionConfig].forEach(q => {
                     this.filters[q.label] = ['any'];
                 });
                 this.appliedFilters = JSON.parse(JSON.stringify(this.filters));
