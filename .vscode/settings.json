@@ -1,3 +1,4 @@
 {
-    "livePreview.defaultPreviewPath": "/管理后台.html"
+    "livePreview.defaultPreviewPath": "/管理后台.html",
+    "liveServer.settings.port": 5501
 }
