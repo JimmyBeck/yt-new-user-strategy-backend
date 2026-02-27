@@ -71,7 +71,7 @@
 
                         <!-- Dropdown -->
                         <div v-show="activeFilterDropdown === q.label" 
-                                class="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden multiselect-options">
+                                class="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl multiselect-options">
                             <div class="p-1">
                                 <label class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
                                     <input type="checkbox" 
@@ -120,7 +120,7 @@
 
                         <!-- Dropdown -->
                         <div v-show="activeFilterDropdown === q.label" 
-                                class="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden multiselect-options">
+                                class="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl multiselect-options">
                             <div class="p-1">
                                 <label class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
                                     <input type="checkbox" 
@@ -261,7 +261,7 @@
 
                                 <!-- Dropdown -->
                                 <div v-show="activeDropdown === q.label" 
-                                     class="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden multiselect-options">
+                                     class="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl multiselect-options">
                                     <div class="p-1">
                                         <!-- Any Option -->
                                         <label class="flex items-center px-3 py-2 hover:bg-slate-50 rounded cursor-pointer">
@@ -524,13 +524,16 @@
                 appliedFilters: {},
                 questionConfig: [
                     { label: '用户身份', options: ['学生', '家长'] },
-                    { label: '用户年级', options: ['大一', '大二', '大三', '大四', '已毕业-全力备考', '已毕业-半工半读'] },
+                    { label: '用户年级', options: ['大一', '大二', '大三', '大四', '已毕业-全身心备考', '在职-半工半读', '开学大一', '开学大二', '开学大三', '开学大四'] },
+                    { label: '考研保研选择', options: ['考研', '保研', '不确定'] },
+                    { label: '【保研】当前院校档次', options: ['985', '211', '双一流', '其他'] },
+                    { label: '【保研】当前绩点排名', options: ['前3%', '前5%', '前10%', '前20%', '不知道'] },
                     { label: '考研年份', options: ['26考研', '27考研', '28考研', '29考研'] },
                     { label: '考研专业和院校', options: ['只有专业', '只有院校', '院校专业都有', '院校专业都没有'] },
-                    { label: '关注专业', options: ['哲学', '经济学', '法学', '教育学', '文学', '历史学', '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学', '数学', '不考数学'] }
+                    { label: '【考研】目标专业', options: ['哲学', '经济学', '法学', '教育学', '文学', '历史学', '理学', '工学', '农学', '医学', '军事学', '管理学', '艺术学', '数学', '不考数学'] }
                 ],
                 extraConditionConfig: [
-                    { label: '是否已添加销售好友', options: ['是', '否'] }
+                    { label: '是否已添加销售好友', options: ['已添加保研产线销售企微', '已添加考研产线销售企微'] }
                 ],
                 categoryRoots: {
                     '通用首页': ['寒假抢跑', '工科智选', '家长专区'],
@@ -593,7 +596,7 @@
                             '用户年级': ['any'],
                             '考研年份': ['26考研', '27考研'],
                             '考研专业和院校': ['any'],
-                            '关注专业': ['不考数学', '艺术学', '文学']
+                            '【考研】目标专业': ['不考数学', '艺术学', '文学']
                         }, 
                         targetType: '公开直播间',
                         targetValue: 'LIVE_ROOM_888', 
@@ -609,7 +612,7 @@
                             '用户年级': ['any'],
                             '考研年份': ['any'],
                             '考研专业和院校': ['any'],
-                            '关注专业': ['工学', '数学']
+                            '【考研】目标专业': ['工学', '数学']
                         }, 
                         targetType: '网址',
                         targetValue: '', 
@@ -641,7 +644,7 @@
                             '用户年级': ['any'],
                             '考研年份': ['27考研', '28考研'],
                             '考研专业和院校': ['any'],
-                            '关注专业': ['数学', '理学', '工学', '经济学']
+                            '【考研】目标专业': ['数学', '理学', '工学', '经济学']
                         }, 
                         targetType: '容器化',
                         targetValue: '数学每日一题', 
@@ -654,7 +657,7 @@
                         id: 8, 
                         conditions: {
                             '用户身份': ['学生'],
-                            '用户年级': ['已毕业-全力备考'],
+                            '用户年级': ['已毕业-全身心备考'],
                             '考研年份': ['any'],
                             '考研专业和院校': ['any'],
                             '关注专业': ['any']
@@ -670,7 +673,7 @@
                         id: 9, 
                         conditions: {
                             '用户身份': ['学生'],
-                            '用户年级': ['已毕业-半工半读'],
+                            '用户年级': ['在职-半工半读'],
                             '考研年份': ['any'],
                             '考研专业和院校': ['any'],
                             '关注专业': ['any']
